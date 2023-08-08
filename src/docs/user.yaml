@@ -1,0 +1,135 @@
+paths:
+  /api/users/profile:
+    get:
+      summary: Get user profile
+      tags:
+        - User
+      security:
+        - authTokenCompleted: []
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/UserProfile'
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+
+  /api/users/profile/edit:
+    patch:
+      summary: Update user profile
+      tags:
+        - User
+      security:
+        - authTokenCompleted: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateProfile'
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/UserProfile'
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+
+components:
+  schemas:
+    UserProfile:
+      type: object
+      properties:
+        firstName:
+          type: string
+          exapmle: 'fatima'
+        lastName:
+          type: string
+          exapmle: 'ali'
+        email:
+          type: string
+          exapmle: 'fatima@gmail.com'
+        phone:
+          type: string
+          exapmle: '+90534000000'
+        cookerStatus:
+          type: string
+        address:
+          $ref: '#/components/schemas/IAddress'
+        profileImage:
+          type: string
+          example: 'https://res.cloudinary.com/de3x3t4ra/image/upload/v1690389666/user-profile.png'
+    IAddress:
+      type: object
+      properties:
+        streetName:
+          type: string
+          example: Main Street
+        streetNumber:
+          type: number
+          example: 123
+        flatNumber:
+          type: number
+          example: 4
+        district:
+          type: string
+          example: Downtown
+        city:
+          type: string
+          example: New York
+        state:
+          type: string
+          example: NY
+        zip:
+          type: number
+          example: 10001
+    UpdateProfile:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        cookerStatus:
+          type: string
+        streetName:
+          type: string
+        streetNumber:
+          type: string
+        state:
+          type: string
+        city:
+          type: string
+        flatNumber:
+          type: string
+        district:
+          type: string
+        zip:
+          type: string
+        profileImage:
+          type: string
+          format: binary
